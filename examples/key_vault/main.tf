@@ -1,11 +1,8 @@
 module "keyvault" {
   source = "../../"
 
-  client_id       = var.client_id
-  subscription_id = var.subscription_id
-  client_secret   = var.client_secret
-  tenant_id       = var.tenant_id
-  rg_name         = "test-rg"
+
+  rg_name = "test-rg"
   secrets = {
     hello = "hello"
     foo   = "bar"

@@ -1,5 +1,5 @@
 variable "teamid" {
-  description = "(Required) Name of the team/group e.g. devops, dataengineering. Should not be changed after running 'tf apply'"
+  description = "Name of the team/group e.g. devops, dataengineering. Should not be changed after running 'tf apply'"
 }
 
 variable "prjid" {
@@ -70,11 +70,3 @@ variable "user_object_id_list" {
   type    = list(string)
   default = []
 }
-
-variable "subscription_id" {}
-
-variable "client_id" {}
-
-variable "client_secret" {}
-
-variable "tenant_id" {}

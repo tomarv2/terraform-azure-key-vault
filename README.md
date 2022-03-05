@@ -1,6 +1,6 @@
 <p align="center">
-    <a href="https://github.com/tomarv2/terraform-azure-key-vault/actions/workflows/security_scans.yml" alt="Security Scans">
-        <img src="https://github.com/tomarv2/terraform-azure-key-vault/actions/workflows/security_scans.yml/badge.svg?branch=main" /></a>
+    <a href="https://github.com/tomarv2/terraform-azure-key-vault/actions/workflows/pre-commit.yml" alt="Pre Commit">
+        <img src="https://github.com/tomarv2/terraform-azure-key-vault/actions/workflows/pre-commit.yml/badge.svg?branch=main" /></a>
     <a href="https://www.apache.org/licenses/LICENSE-2.0" alt="license">
         <img src="https://img.shields.io/github/license/tomarv2/terraform-azure-key-vault" /></a>
     <a href="https://github.com/tomarv2/terraform-azure-key-vault/tags" alt="GitHub tag">
@@ -9,8 +9,7 @@
         <img src="https://img.shields.io/github/commit-activity/m/tomarv2/terraform-azure-key-vault" /></a>
     <a href="https://stackoverflow.com/users/6679867/tomarv2" alt="Stack Exchange reputation">
         <img src="https://img.shields.io/stackexchange/stackoverflow/r/6679867"></a>
-    <a href="https://discord.gg/XH975bzN" alt="chat on Discord">
-        <img src="https://img.shields.io/discord/813961944443912223?logo=discord"></a>
+
     <a href="https://twitter.com/intent/follow?screen_name=varuntomar2019" alt="follow on Twitter">
         <img src="https://img.shields.io/twitter/follow/varuntomar2019?style=social&logo=twitter"></a>
 </p>
@@ -23,13 +22,13 @@
 
 ## Versions
 
-- Module tested for Terraform 0.14.
-- Azure provider version [2.48.0](https://registry.terraform.io/providers/hashicorp/azurerm/latest)
+- Module tested for Terraform 1.0.1.
+- Azure provider version [2.98](https://registry.terraform.io/providers/hashicorp/azurerm/latest)
 - `main` branch: Provider versions not pinned to keep up with Terraform releases
 - `tags` releases: Tags are pinned with versions (use <a href="https://github.com/tomarv2/terraform-azure-key-vault/tags" alt="GitHub tag">
         <img src="https://img.shields.io/github/v/tag/tomarv2/terraform-azure-key-vault" /></a> in your releases)
 
-**NOTE:** 
+**NOTE:**
 
 - Read more on [tfremote](https://github.com/tomarv2/tfremote)
 
@@ -37,7 +36,7 @@
 
 Recommended method:
 
-- Create python 3.6+ virtual environment 
+- Create python 3.6+ virtual environment
 ```
 python3 -m venv <venv name>
 ```
@@ -52,9 +51,9 @@ pip install tfremote
 export TF_AZURE_STORAGE_ACCOUNT=tfstatexxxxx # Output of remote_state.sh
 export TF_AZURE_CONTAINER=tfstate # Output of remote_state.sh
 export ARM_ACCESS_KEY=xxxxxxxxxx # Output of remote_state.sh
-```  
+```
 
-- Make required change to `examples` directory 
+- Make required change to `examples` directory
 
 - Run and verify the output before deploying:
 ```
@@ -89,10 +88,7 @@ tf -cloud azure destroy  -var='teamid=foo' -var='prjid=bar' -var "subscription_i
 module "keyvault" {
   source = "git::git@github.com:tomarv2/terraform-azure-key-vault.git?ref=v0.0.1"
 
-  client_id       = var.client_id
-  subscription_id = var.subscription_id
-  client_secret   = var.client_secret
-  tenant_id       = var.tenant_id
+
   rg_name         = "test-rg"
   secrets = {
     hello   = "hello"
@@ -143,7 +139,7 @@ Please refer to examples directory [link](examples) for references.
 | sku | The name of the SKU used for the Key Vault. The options are: `standard`, `premium`. | `string` | `"standard"` | no |
 | storage\_permissions | n/a | `list(string)` | <pre>[<br>  "set",<br>  "list",<br>  "get"<br>]</pre> | no |
 | subscription\_id | n/a | `any` | n/a | yes |
-| teamid | (Required) Name of the team/group e.g. devops, dataengineering. Should not be changed after running 'tf apply' | `any` | n/a | yes |
+| teamid | Name of the team/group e.g. devops, dataengineering. Should not be changed after running 'tf apply' | `any` | n/a | yes |
 | tenant\_id | n/a | `any` | n/a | yes |
 | user\_object\_id\_list | n/a | `list(string)` | `[]` | no |
 
