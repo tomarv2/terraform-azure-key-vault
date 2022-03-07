@@ -69,7 +69,7 @@ variable "user_object_id_list" {
 }
 
 variable "location" {
-  description = "Specifies the supported Azure location where the resource exists. Changing this forces a new resource to be created"
+  description = "Specifies the supported Azure location where the resource exists"
   type        = string
   default     = "westus2"
 }
