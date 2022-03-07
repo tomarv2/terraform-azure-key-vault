@@ -13,13 +13,13 @@
         <img src="https://img.shields.io/twitter/follow/varuntomar2019?style=social&logo=twitter"></a>
 </p>
 
-# Terraform module to create [Azure Key Vault](https://registry.terraform.io/modules/tomarv2/key-vault/azure/latest)
+## Terraform module for [Azure Key Vault](https://registry.terraform.io/modules/tomarv2/key-vault/azure/latest)
 
-> :arrow_right: Terraform module to create [AWS Parameterstore](https://registry.terraform.io/modules/tomarv2/parameterstore/aws/latest)
+> :arrow_right: Terraform module for [AWS Parameterstore](https://registry.terraform.io/modules/tomarv2/parameterstore/aws/latest)
 
-> :arrow_right: Terraform module to create [Google Secret Manager](https://registry.terraform.io/modules/tomarv2/secret-manager/google/latest)
+> :arrow_right: Terraform module for [Google Secret Manager](https://registry.terraform.io/modules/tomarv2/secret-manager/google/latest)
 
-## Versions
+### Versions
 
 - Module tested for Terraform 1.0.1.
 - Azure provider version [2.98](https://registry.terraform.io/providers/hashicorp/azurerm/latest)
@@ -27,71 +27,90 @@
 - `tags` releases: Tags are pinned with versions (use <a href="https://github.com/tomarv2/terraform-azure-key-vault/tags" alt="GitHub tag">
         <img src="https://img.shields.io/github/v/tag/tomarv2/terraform-azure-key-vault" /></a> in your releases)
 
-**NOTE:**
+### Usage
 
-- Read more on [tfremote](https://github.com/tomarv2/tfremote)
+#### Option 1:
 
-## Usage
+```
+terrafrom init
+terraform plan -var='teamid=tryme' -var='prjid=project1'
+terraform apply -var='teamid=tryme' -var='prjid=project1'
+terraform destroy -var='teamid=tryme' -var='prjid=project1'
+```
+**Note:** With this option please take care of remote state storage
 
-Recommended method:
+#### Option 2:
 
-- Create python 3.6+ virtual environment
+##### Recommended method (stores remote state in S3 using `prjid` and `teamid` to create directory structure):
+
+- Create python 3.8+ virtual environment
 ```
 python3 -m venv <venv name>
 ```
 
 - Install package:
 ```
-pip install tfremote
+pip install tfremote --upgrade
 ```
 
 - Set below environment variables:
 ```
-export TF_AZURE_STORAGE_ACCOUNT=tfstatexxxxx # Output of remote_state.sh
-export TF_AZURE_CONTAINER=tfstate # Output of remote_state.sh
-export ARM_ACCESS_KEY=xxxxxxxxxx # Output of remote_state.sh
+export TF_AWS_BUCKET=<remote state bucket name>
+export TF_AWS_BUCKET_REGION=us-west-2
+export TF_AWS_PROFILE=<profile from ~/.ws/credentials>
 ```
 
-- Make required change to `examples` directory
+or
+
+- Set below environment variables:
+```
+export TF_AWS_BUCKET=<remote state bucket name>
+export TF_AWS_BUCKET_REGION=us-west-2
+export AWS_ACCESS_KEY_ID=<aws_access_key_id>
+export AWS_SECRET_ACCESS_KEY=<aws_secret_access_key>
+```
+
+- Updated `examples` directory with required values.
 
 - Run and verify the output before deploying:
 ```
-tf -cloud azure plan  -var='teamid=foo' -var='prjid=bar' -var "subscription_id=<>" -var "client_id=<>" -var "client_secret=<>" -var "tenant_id=<>"
+tf -c=aws plan -var='teamid=foo' -var='prjid=bar'
 ```
 
 - Run below to deploy:
 ```
-tf -cloud azure apply  -var='teamid=foo' -var='prjid=bar' -var "subscription_id=<>" -var "client_id=<>" -var "client_secret=<>" -var "tenant_id=<>"
+tf -c=aws apply -var='teamid=foo' -var='prjid=bar'
 ```
 
 - Run below to destroy:
 ```
-tf -cloud azure destroy  -var='teamid=foo' -var='prjid=bar' -var "subscription_id=<>" -var "client_id=<>" -var "client_secret=<>" -var "tenant_id=<>"
+tf -c=aws destroy -var='teamid=foo' -var='prjid=bar'
 ```
 
-> ❗️ **Important** - Two variables are required for using `tf` package:
->
-> - teamid
-> - prjid
->
-> These variables are required to set backend path in the remote storage.
-> Variables can be defined using:
->
-> - As `inline variables` e.g.: `-var='teamid=demo-team' -var='prjid=demo-project'`
-> - Inside `.tfvars` file e.g.: `-var-file=<tfvars file location> `
->
-> For more information refer to [Terraform documentation](https://www.terraform.io/docs/language/values/variables.html)
-
-#### Azure Key Vault
+**Note:** Read more on [tfremote](https://github.com/tomarv2/tfremote)
+##### Azure Key Vault
 ```
-module "keyvault" {
-  source = "git::git@github.com:tomarv2/terraform-azure-key-vault.git?ref=v0.0.1"
+terraform {
+  required_version = ">= 1.0.1"
+  required_providers {
+    azurerm = {
+      version = "~> 2.98"
+    }
+  }
+}
 
+provider "azurerm" {
+  features {}
+}
 
-  rg_name         = "test-rg"
+module "key_vault" {
+  source = "../../"
+
+  resource_group_name = "test-rg"
+  location            = var.location
   secrets = {
-    hello   = "hello"
-    foo = "bar"
+    hello = "hello"
+    foo   = "bar"
   }
   user_object_id_list = ["12345-1234-1234-1234-1234567"]
   #-----------------------------------------------
@@ -109,45 +128,54 @@ Please refer to examples directory [link](examples) for references.
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.14 |
-| azurerm | ~> 2.48 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.1 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 2.98 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| azurerm | ~> 2.48 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~> 2.98 |
+
+## Modules
+
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_global"></a> [global](#module\_global) | git::git@github.com:tomarv2/terraform-global.git//common | v0.0.1 |
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [azurerm_key_vault.kv](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault) | resource |
+| [azurerm_key_vault_secret.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
+| [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| access\_policies | List of access policies for the Key Vault. | `any` | `[]` | no |
-| client\_id | n/a | `any` | n/a | yes |
-| client\_secret | n/a | `any` | n/a | yes |
-| enabled\_for\_disk\_encryption | Allow Disk Encryption to retrieve secrets from the vault and unwrap keys. | `bool` | `false` | no |
-| key\_premissions | TODO: what happens when different users need different permissions | `list(string)` | <pre>[<br>  "get",<br>  "list",<br>  "create"<br>]</pre> | no |
-| network\_default\_action | n/a | `string` | `"Deny"` | no |
-| network\_ip\_allowed | n/a | `list(string)` | `null` | no |
-| prjid | Name of the project/stack. NOTE: DONOT CHANGE ONCE SET | `any` | n/a | yes |
-| purge\_protection\_enabled | n/a | `bool` | `false` | no |
-| rg\_location | n/a | `string` | `"eastus"` | no |
-| rg\_name | n/a | `any` | n/a | yes |
-| secret\_permissions | n/a | `list(string)` | <pre>[<br>  "set",<br>  "list",<br>  "get",<br>  "delete"<br>]</pre> | no |
-| secrets | A map of secrets for the Key Vault. | `map(string)` | `{}` | no |
-| sku | The name of the SKU used for the Key Vault. The options are: `standard`, `premium`. | `string` | `"standard"` | no |
-| storage\_permissions | n/a | `list(string)` | <pre>[<br>  "set",<br>  "list",<br>  "get"<br>]</pre> | no |
-| subscription\_id | n/a | `any` | n/a | yes |
-| teamid | Name of the team/group e.g. devops, dataengineering. Should not be changed after running 'tf apply' | `any` | n/a | yes |
-| tenant\_id | n/a | `any` | n/a | yes |
-| user\_object\_id\_list | n/a | `list(string)` | `[]` | no |
+| <a name="input_enabled_for_disk_encryption"></a> [enabled\_for\_disk\_encryption](#input\_enabled\_for\_disk\_encryption) | Allow Disk Encryption to retrieve secrets from the vault and unwrap keys. | `bool` | `false` | no |
+| <a name="input_extra_tags"></a> [extra\_tags](#input\_extra\_tags) | Additional tags to associate | `map(string)` | `{}` | no |
+| <a name="input_key_premissions"></a> [key\_premissions](#input\_key\_premissions) | Key permissions | `list(string)` | <pre>[<br>  "list",<br>  "get",<br>  "delete",<br>  "recover",<br>  "update",<br>  "backup",<br>  "purge",<br>  "import",<br>  "create",<br>  "verify",<br>  "restore"<br>]</pre> | no |
+| <a name="input_location"></a> [location](#input\_location) | Specifies the supported Azure location where the resource exists. Changing this forces a new resource to be created | `string` | `"westus2"` | no |
+| <a name="input_network_default_action"></a> [network\_default\_action](#input\_network\_default\_action) | Network default action | `string` | `"Deny"` | no |
+| <a name="input_prjid"></a> [prjid](#input\_prjid) | Name of the project/stack. NOTE: DONOT CHANGE ONCE SET | `string` | n/a | yes |
+| <a name="input_purge_protection_enabled"></a> [purge\_protection\_enabled](#input\_purge\_protection\_enabled) | Purge protection enabled | `bool` | `false` | no |
+| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | The name of the Resource group | `string` | n/a | yes |
+| <a name="input_secret_permissions"></a> [secret\_permissions](#input\_secret\_permissions) | Secret permissions | `list(string)` | <pre>[<br>  "set",<br>  "list",<br>  "get",<br>  "delete",<br>  "recover",<br>  "backup",<br>  "purge",<br>  "restore"<br>]</pre> | no |
+| <a name="input_secrets"></a> [secrets](#input\_secrets) | A map of secrets for the Key Vault. | `map(string)` | `{}` | no |
+| <a name="input_sku"></a> [sku](#input\_sku) | The name of the SKU used for the Key Vault. The options are: `standard`, `premium`. | `string` | `"standard"` | no |
+| <a name="input_storage_permissions"></a> [storage\_permissions](#input\_storage\_permissions) | Storage permissions | `list(string)` | <pre>[<br>  "set",<br>  "list",<br>  "get"<br>]</pre> | no |
+| <a name="input_teamid"></a> [teamid](#input\_teamid) | Name of the team/group e.g. devops, dataengineering. Should not be changed after running 'tf apply' | `string` | n/a | yes |
+| <a name="input_user_object_id_list"></a> [user\_object\_id\_list](#input\_user\_object\_id\_list) | User object Id list | `list(string)` | `[]` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| id | The ID of the Key Vault. |
-| name | The name of the Key Vault. |
-| references | A mapping of Key Vault references for App Service and Azure Functions. |
-| secrets | A mapping of secret names and URIs. |
-| uri | The URI of the Key Vault. |
+| <a name="output_id"></a> [id](#output\_id) | The ID of the Key Vault. |
+| <a name="output_name"></a> [name](#output\_name) | The name of the Key Vault. |
+| <a name="output_references"></a> [references](#output\_references) | A mapping of Key Vault references for App Service and Azure Functions. |
+| <a name="output_secrets"></a> [secrets](#output\_secrets) | A mapping of secret names and URIs. |
+| <a name="output_uri"></a> [uri](#output\_uri) | The URI of the Key Vault. |

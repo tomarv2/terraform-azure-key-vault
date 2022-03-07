@@ -35,4 +35,4 @@ repos:
     hooks:
     - id: checkov
       verbose: true
-      args: [-d, '.', --framework,'terraform']
+      args: [-d, '.', --framework,'terraform', --skip-check, 'CKV_AZURE_42,CKV_AZURE_110,CKV_AZURE_41,CKV_AZURE_114']
