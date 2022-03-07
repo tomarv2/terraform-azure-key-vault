@@ -1,8 +1,21 @@
-module "keyvault" {
+terraform {
+  required_version = ">= 1.0.1"
+  required_providers {
+    azurerm = {
+      version = "~> 2.98"
+    }
+  }
+}
+
+provider "azurerm" {
+  features {}
+}
+
+module "key_vault" {
   source = "../../"
 
-
-  rg_name = "test-rg"
+  resource_group_name = "test-rg"
+  location            = var.location
   secrets = {
     hello = "hello"
     foo   = "bar"
