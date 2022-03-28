@@ -124,6 +124,7 @@ Note: If no `user_object_id_list` is specified, the service account creating the
 
 Please refer to examples directory [link](examples) for references.
 
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -158,7 +159,7 @@ Please refer to examples directory [link](examples) for references.
 | <a name="input_enabled_for_disk_encryption"></a> [enabled\_for\_disk\_encryption](#input\_enabled\_for\_disk\_encryption) | Allow Disk Encryption to retrieve secrets from the vault and unwrap keys. | `bool` | `false` | no |
 | <a name="input_extra_tags"></a> [extra\_tags](#input\_extra\_tags) | Additional tags to associate | `map(string)` | `{}` | no |
 | <a name="input_key_premissions"></a> [key\_premissions](#input\_key\_premissions) | Key permissions | `list(string)` | <pre>[<br>  "list",<br>  "get",<br>  "delete",<br>  "recover",<br>  "update",<br>  "backup",<br>  "purge",<br>  "import",<br>  "create",<br>  "verify",<br>  "restore"<br>]</pre> | no |
-| <a name="input_location"></a> [location](#input\_location) | Specifies the supported Azure location where the resource exists. Changing this forces a new resource to be created | `string` | `"westus2"` | no |
+| <a name="input_location"></a> [location](#input\_location) | Specifies the supported Azure location where the resource exists | `string` | `"westus2"` | no |
 | <a name="input_network_default_action"></a> [network\_default\_action](#input\_network\_default\_action) | Network default action | `string` | `"Deny"` | no |
 | <a name="input_prjid"></a> [prjid](#input\_prjid) | Name of the project/stack. NOTE: DONOT CHANGE ONCE SET | `string` | n/a | yes |
 | <a name="input_purge_protection_enabled"></a> [purge\_protection\_enabled](#input\_purge\_protection\_enabled) | Purge protection enabled | `bool` | `false` | no |
@@ -179,3 +180,4 @@ Please refer to examples directory [link](examples) for references.
 | <a name="output_references"></a> [references](#output\_references) | A mapping of Key Vault references for App Service and Azure Functions. |
 | <a name="output_secrets"></a> [secrets](#output\_secrets) | A mapping of secret names and URIs. |
 | <a name="output_uri"></a> [uri](#output\_uri) | The URI of the Key Vault. |
+<!-- END_TF_DOCS -->
