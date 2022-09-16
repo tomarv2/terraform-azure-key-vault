@@ -22,7 +22,7 @@
 ### Versions
 
 - Module tested for Terraform 1.0.1.
-- Azure provider version [2.98](https://registry.terraform.io/providers/hashicorp/azurerm/latest)
+- Azure provider version [3.21.1](https://registry.terraform.io/providers/hashicorp/azurerm/latest)
 - `main` branch: Provider versions not pinned to keep up with Terraform releases
 - `tags` releases: Tags are pinned with versions (use <a href="https://github.com/tomarv2/terraform-azure-key-vault/tags" alt="GitHub tag">
         <img src="https://img.shields.io/github/v/tag/tomarv2/terraform-azure-key-vault" /></a> in your releases)
@@ -41,7 +41,7 @@ terraform destroy -var='teamid=tryme' -var='prjid=project1'
 
 #### Option 2:
 
-##### Recommended method (stores remote state in S3 using `prjid` and `teamid` to create directory structure):
+##### Recommended method (stores remote state in remote backend(S3,  Azure storage, or Google bucket) using `prjid` and `teamid` to create directory structure):
 
 - Create python 3.8+ virtual environment
 ```
@@ -127,57 +127,25 @@ Please refer to examples directory [link](examples) for references.
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-| Name | Version |
-|------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.1 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 2.98 |
+No requirements.
 
 ## Providers
 
-| Name | Version |
-|------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~> 2.98 |
+No providers.
 
 ## Modules
 
-| Name | Source | Version |
-|------|--------|---------|
-| <a name="module_global"></a> [global](#module\_global) | git::git@github.com:tomarv2/terraform-global.git//common | v0.0.1 |
+No modules.
 
 ## Resources
 
-| Name | Type |
-|------|------|
-| [azurerm_key_vault.kv](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault) | resource |
-| [azurerm_key_vault_secret.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
-| [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
+No resources.
 
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| <a name="input_enabled_for_disk_encryption"></a> [enabled\_for\_disk\_encryption](#input\_enabled\_for\_disk\_encryption) | Allow Disk Encryption to retrieve secrets from the vault and unwrap keys. | `bool` | `false` | no |
-| <a name="input_extra_tags"></a> [extra\_tags](#input\_extra\_tags) | Additional tags to associate | `map(string)` | `{}` | no |
-| <a name="input_key_premissions"></a> [key\_premissions](#input\_key\_premissions) | Key permissions | `list(string)` | <pre>[<br>  "list",<br>  "get",<br>  "delete",<br>  "recover",<br>  "update",<br>  "backup",<br>  "purge",<br>  "import",<br>  "create",<br>  "verify",<br>  "restore"<br>]</pre> | no |
-| <a name="input_location"></a> [location](#input\_location) | Specifies the supported Azure location where the resource exists | `string` | `"westus2"` | no |
-| <a name="input_network_default_action"></a> [network\_default\_action](#input\_network\_default\_action) | Network default action | `string` | `"Deny"` | no |
-| <a name="input_prjid"></a> [prjid](#input\_prjid) | Name of the project/stack. NOTE: DONOT CHANGE ONCE SET | `string` | n/a | yes |
-| <a name="input_purge_protection_enabled"></a> [purge\_protection\_enabled](#input\_purge\_protection\_enabled) | Purge protection enabled | `bool` | `false` | no |
-| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | The name of the Resource group | `string` | n/a | yes |
-| <a name="input_secret_permissions"></a> [secret\_permissions](#input\_secret\_permissions) | Secret permissions | `list(string)` | <pre>[<br>  "set",<br>  "list",<br>  "get",<br>  "delete",<br>  "recover",<br>  "backup",<br>  "purge",<br>  "restore"<br>]</pre> | no |
-| <a name="input_secrets"></a> [secrets](#input\_secrets) | A map of secrets for the Key Vault. | `map(string)` | `{}` | no |
-| <a name="input_sku"></a> [sku](#input\_sku) | The name of the SKU used for the Key Vault. The options are: `standard`, `premium`. | `string` | `"standard"` | no |
-| <a name="input_storage_permissions"></a> [storage\_permissions](#input\_storage\_permissions) | Storage permissions | `list(string)` | <pre>[<br>  "set",<br>  "list",<br>  "get"<br>]</pre> | no |
-| <a name="input_teamid"></a> [teamid](#input\_teamid) | Name of the team/group e.g. devops, dataengineering. Should not be changed after running 'tf apply' | `string` | n/a | yes |
-| <a name="input_user_object_id_list"></a> [user\_object\_id\_list](#input\_user\_object\_id\_list) | User object Id list | `list(string)` | `[]` | no |
+No inputs.
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| <a name="output_id"></a> [id](#output\_id) | The ID of the Key Vault. |
-| <a name="output_name"></a> [name](#output\_name) | The name of the Key Vault. |
-| <a name="output_references"></a> [references](#output\_references) | A mapping of Key Vault references for App Service and Azure Functions. |
-| <a name="output_secrets"></a> [secrets](#output\_secrets) | A mapping of secret names and URIs. |
-| <a name="output_uri"></a> [uri](#output\_uri) | The URI of the Key Vault. |
+No outputs.
 <!-- END_TF_DOCS -->

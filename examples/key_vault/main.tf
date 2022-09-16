@@ -2,7 +2,7 @@ terraform {
   required_version = ">= 1.0.1"
   required_providers {
     azurerm = {
-      version = "~> 2.98"
+      version = "~> 3.21.1"
     }
   }
 }
@@ -14,8 +14,8 @@ provider "azurerm" {
 module "key_vault" {
   source = "../../"
 
-  resource_group_name = "test-rg"
-  location            = var.location
+  resource_group = "test-rg"
+  location       = var.location
   secrets = {
     hello = "hello"
     foo   = "bar"
