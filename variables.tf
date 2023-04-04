@@ -8,7 +8,7 @@ variable "prjid" {
   type        = string
 }
 
-variable "resource_group_name" {
+variable "resource_group" {
   description = "The name of the Resource group"
   type        = string
 }

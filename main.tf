@@ -1,5 +1,5 @@
 module "global" {
-  source = "git::git@github.com:tomarv2/terraform-global.git//common?ref=v0.0.1"
+  source = "github.com/tomarv2/terraform-global.git//common?ref=v0.0.1"
 }
 
 data "azurerm_client_config" "current" {}
@@ -20,7 +20,7 @@ locals {
 resource "azurerm_key_vault" "kv" {
   name                        = "${var.teamid}-${var.prjid}"
   location                    = var.location
-  resource_group_name         = var.resource_group_name
+  resource_group_name         = var.resource_group
   enabled_for_disk_encryption = var.enabled_for_disk_encryption
   tenant_id                   = data.azurerm_client_config.current.tenant_id
   purge_protection_enabled    = var.purge_protection_enabled
