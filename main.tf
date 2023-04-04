@@ -1,5 +1,5 @@
 module "global" {
-  source = "git::git@github.com:tomarv2/terraform-global.git//common?ref=v0.0.1"
+  source = "github.com/tomarv2/terraform-global.git//common?ref=v0.0.1"
 }
 
 data "azurerm_client_config" "current" {}
